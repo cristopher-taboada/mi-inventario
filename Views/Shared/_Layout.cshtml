@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FCB Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+            /* ===== ESTILOS BLAUGRANA ===== */
+            :root {
+                --azul-grana: #004D98;
+                --granate: #A50044;
+                --amarillo: #FFB511;
+                --blanco: #FFFFFF;
+                --negro: #000000;
+            }
+
+            * {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background: linear-gradient(135deg, #004D98 0%, #A50044 100%);
+                min-height: 100vh;
+                padding-bottom: 2rem;
+            }
+
+            /* ===== NAVBAR ===== */
+            .navbar-blaugrana {
+                background: linear-gradient(135deg, #002d5c 0%, #7a0033 100%) !important;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                border-bottom: 3px solid #FFB511;
+            }
+
+                .navbar-blaugrana .navbar-brand {
+                    color: #FFB511 !important;
+                    font-weight: 700;
+                    font-size: 1.5rem;
+                    letter-spacing: 1px;
+                }
+
+                    .navbar-blaugrana .navbar-brand i {
+                        margin-right: 10px;
+                    }
+
+                .navbar-blaugrana .nav-link {
+                    color: rgba(255,255,255,0.85) !important;
+                    font-weight: 500;
+                    transition: all 0.3s;
+                    border-radius: 2rem;
+                    padding: 0.5rem 1.2rem;
+                }
+
+                    .navbar-blaugrana .nav-link:hover {
+                        color: #FFB511 !important;
+                        background: rgba(255,181,17,0.15);
+                        transform: scale(1.05);
+                    }
+
+                    .navbar-blaugrana .nav-link.active {
+                        color: #FFB511 !important;
+                        background: rgba(255,181,17,0.2);
+                    }
+
+                .navbar-blaugrana .navbar-text {
+                    color: rgba(255,255,255,0.8) !important;
+                }
+
+                    .navbar-blaugrana .navbar-text i {
+                        color: #FFB511;
+                    }
+
+            /* ===== CARDS ===== */
+            .card-blaugrana {
+                border: none;
+                border-radius: 1.5rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                transition: transform 0.3s, box-shadow 0.3s;
+                background: var(--blanco);
+                overflow: hidden;
+            }
+
+                .card-blaugrana:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                }
+
+                .card-blaugrana .card-header {
+                    background: linear-gradient(135deg, #004D98, #A50044);
+                    color: white;
+                    border: none;
+                    padding: 1.2rem 1.5rem;
+                }
+
+                    .card-blaugrana .card-header i {
+                        color: #FFB511;
+                    }
+
+            /* ===== BOTONES ===== */
+            .btn-blaugrana {
+                background: linear-gradient(135deg, #004D98, #A50044);
+                border: none;
+                color: white;
+                border-radius: 2rem;
+                padding: 0.6rem 2rem;
+                font-weight: 600;
+                transition: all 0.3s;
+            }
+
+                .btn-blaugrana:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 5px 20px rgba(165,0,68,0.4);
+                    color: white;
+                }
+
+            .btn-blaugrana-outline {
+                background: transparent;
+                border: 2px solid #A50044;
+                color: #A50044;
+                border-radius: 2rem;
+                padding: 0.6rem 2rem;
+                font-weight: 600;
+                transition: all 0.3s;
+            }
+
+                .btn-blaugrana-outline:hover {
+                    background: #A50044;
+                    color: white;
+                    transform: scale(1.05);
+                }
+
+            .btn-azul {
+                background: #004D98;
+                border: none;
+                color: white;
+                border-radius: 2rem;
+                padding: 0.6rem 2rem;
+                font-weight: 600;
+                transition: all 0.3s;
+            }
+
+                .btn-azul:hover {
+                    background: #003d78;
+                    transform: scale(1.05);
+                    color: white;
+                }
+
+            .btn-granate {
+                background: #A50044;
+                border: none;
+                color: white;
+                border-radius: 2rem;
+                padding: 0.6rem 2rem;
+                font-weight: 600;
+                transition: all 0.3s;
+            }
+
+                .btn-granate:hover {
+                    background: #7a0033;
+                    transform: scale(1.05);
+                    color: white;
+                }
+
+            .btn-oro {
+                background: #FFB511;
+                border: none;
+                color: #002d5c;
+                border-radius: 2rem;
+                padding: 0.6rem 2rem;
+                font-weight: 700;
+                transition: all 0.3s;
+            }
+
+                .btn-oro:hover {
+                    background: #e6a30f;
+                    transform: scale(1.05);
+                    color: #002d5c;
+                }
+
+            /* ===== BADGES ===== */
+            .badge-azul {
+                background: #004D98;
+                color: white;
+            }
+
+            .badge-granate {
+                background: #A50044;
+                color: white;
+            }
+
+            .badge-oro {
+                background: #FFB511;
+                color: #002d5c;
+            }
+
+            /* ===== TABLAS ===== */
+            .table-blaugrana {
+                border-radius: 1rem;
+                overflow: hidden;
+            }
+
+                .table-blaugrana thead {
+                    background: linear-gradient(135deg, #004D98, #A50044);
+                    color: white;
+                }
+
+                    .table-blaugrana thead th {
+                        border: none;
+                        padding: 1rem;
+                        font-weight: 600;
+                    }
+
+                .table-blaugrana tbody tr:hover {
+                    background: rgba(255,181,17,0.08);
+                }
+
+            /* ===== FOOTER ===== */
+            .footer-blaugrana {
+                background: linear-gradient(135deg, #002d5c, #7a0033);
+                color: rgba(255,255,255,0.7);
+                text-align: center;
+                padding: 1.5rem 0;
+                margin-top: 3rem;
+                border-top: 2px solid #FFB511;
+            }
+
+                .footer-blaugrana a {
+                    color: #FFB511;
+                    text-decoration: none;
+                }
+
+            /* ===== BADGE DE CARRITO ===== */
+            .cart-badge {
+                background: #FFB511;
+                color: #002d5c;
+                font-weight: 700;
+            }
+
+            /* ===== TARJETAS DE PRODUCTO ===== */
+            .producto-card-blaugrana {
+                border: none;
+                border-radius: 1.5rem;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s;
+                overflow: hidden;
+            }
+
+                .producto-card-blaugrana:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 12px 30px rgba(0,77,152,0.2);
+                }
+
+                .producto-card-blaugrana .card-header-blaugrana {
+                    background: linear-gradient(135deg, #004D98, #A50044);
+                    color: white;
+                    padding: 0.8rem 1.2rem;
+                    border: none;
+                }
+
+                    .producto-card-blaugrana .card-header-blaugrana i {
+                        color: #FFB511;
+                    }
+
+            /* ===== RESPONSIVE ===== */
+            @@media (max-width: 768px) {
+                .navbar-blaugrana .nav-link {
+                    padding: 0.5rem 1rem;
+                }
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-blaugrana">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-trophy"></i>FCB Inventory
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @{
+                        var usuarioNombre = Context.Session.GetString("UsuarioNombre");
+                    }
+                    @if (!string.IsNullOrEmpty(usuarioNombre))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house"></i> Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="ProductosView" asp-action="Index"><i class="bi bi-box-seam"></i> Productos</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Tienda" asp-action="Index"><i class="bi bi-shop"></i> Tienda</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Reportes" asp-action="Index"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><span class="navbar-text"><i class="bi bi-person-circle"></i> Hola, @usuarioNombre</span></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-right"></i> Salir</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="bi bi-person-plus"></i> Registrarse</a></li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer-blaugrana">
+        <div class="container">
+            <i class="bi bi-trophy text-warning"></i>
+            <small>© @DateTime.Now.Year - FCB Inventory System</small>
+            <br>
+            <small class="text-white-50">⚽ "Més que un inventario"</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

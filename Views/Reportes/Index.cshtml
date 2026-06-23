@@ -1,0 +1,218 @@
+﻿@model LOGIN.Models.ReportesViewModel
+
+@{
+    ViewData["Title"] = "Reportes";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <!-- TÍTULO -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" style="color: #FFB511;">
+            <i class="bi bi-bar-chart"></i> Panel de Reportes
+        </h1>
+        <p class="text-white-50">Resumen completo de tu inventario y ventas</p>
+    </div>
+
+    <!-- TARJETAS DE RESÚMEN -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="card card-blaugrana text-center">
+                <div class="card-body py-4">
+                    <i class="bi bi-box-seam fs-1" style="color: #004D98;"></i>
+                    <h2 class="fw-bold" style="color: #004D98;">@Model.TotalProductos</h2>
+                    <p class="text-muted">Productos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card card-blaugrana text-center">
+                <div class="card-body py-4">
+                    <i class="bi bi-people fs-1" style="color: #004D98;"></i>
+                    <h2 class="fw-bold" style="color: #004D98;">@Model.TotalUsuarios</h2>
+                    <p class="text-muted">Usuarios</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card card-blaugrana text-center">
+                <div class="card-body py-4">
+                    <i class="bi bi-cart-check fs-1" style="color: #A50044;"></i>
+                    <h2 class="fw-bold" style="color: #A50044;">@Model.TotalPedidos</h2>
+                    <p class="text-muted">Pedidos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card card-blaugrana text-center">
+                <div class="card-body py-4">
+                    <i class="bi bi-currency-dollar fs-1" style="color: #FFB511;"></i>
+                    <h2 class="fw-bold" style="color: #FFB511;">@Model.TotalVentas.ToString("C")</h2>
+                    <p class="text-muted">Ventas Totales</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALERTA DE STOCK BAJO -->
+    @if (Model.ProductosBajoStock > 0)
+    {
+        <div class="alert alert-warning rounded-3 border-0 shadow-sm mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>¡Atención!</strong> Tienes <strong>@Model.ProductosBajoStock</strong> productos con stock bajo (menos de 5 unidades).
+            <a asp-controller="ProductosView" asp-action="Index" class="alert-link">Revisar inventario</a>
+        </div>
+    }
+
+    <!-- PRODUCTOS MÁS VENDIDOS -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card card-blaugrana">
+                <div class="card-header">
+                    <i class="bi bi-trophy me-2"></i> Top 10 Productos Más Vendidos
+                </div>
+                <div class="card-body">
+                    @if (Model.ProductosMasVendidos != null && Model.ProductosMasVendidos.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-blaugrana">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Producto</th>
+                                        <th class="text-center">Vendidos</th>
+                                        <th class="text-end">Recaudado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int index = 1;
+                                    }
+                                    @foreach (var item in Model.ProductosMasVendidos)
+                                    {
+                                        <tr>
+                                            <td>@(index++)</td>
+                                            <td class="fw-semibold">@item.Nombre</td>
+                                            <td class="text-center">
+                                                <span class="badge badge-azul rounded-pill">@item.TotalVendido</span>
+                                            </td>
+                                            <td class="text-end fw-bold" style="color: #FFB511;">
+                                                @item.TotalRecaudado.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-inbox fs-1"></i>
+                            <p class="mt-2">No hay productos vendidos aún</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- VENTAS POR MES -->
+        <div class="col-lg-6">
+            <div class="card card-blaugrana">
+                <div class="card-header">
+                    <i class="bi bi-calendar3 me-2"></i> Ventas por Mes
+                </div>
+                <div class="card-body">
+                    @if (Model.VentasPorMes != null && Model.VentasPorMes.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-blaugrana">
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th class="text-center">Pedidos</th>
+                                        <th class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.VentasPorMes)
+                                    {
+                                        <tr>
+                                            <td class="fw-semibold">@item.Mes</td>
+                                            <td class="text-center">
+                                                <span class="badge badge-granate rounded-pill">@item.CantidadPedidos</span>
+                                            </td>
+                                            <td class="text-end fw-bold" style="color: #004D98;">
+                                                @item.Total.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-calendar-x fs-1"></i>
+                            <p class="mt-2">No hay ventas registradas</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-blaugrana {
+        border: none;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        background: #FFFFFF;
+    }
+
+        .card-blaugrana:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-blaugrana .card-header {
+            background: linear-gradient(135deg, #004D98, #A50044);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+            .card-blaugrana .card-header i {
+                color: #FFB511;
+            }
+
+    .table-blaugrana thead {
+        background: linear-gradient(135deg, #004D98, #A50044);
+        color: white;
+        border-radius: 0.5rem;
+    }
+
+        .table-blaugrana thead th {
+            border: none;
+            padding: 0.8rem 1rem;
+        }
+
+    .badge-azul {
+        background: #004D98;
+        color: white;
+    }
+
+    .badge-granate {
+        background: #A50044;
+        color: white;
+    }
+
+    .badge-oro {
+        background: #FFB511;
+        color: #002d5c;
+    }
+</style>
