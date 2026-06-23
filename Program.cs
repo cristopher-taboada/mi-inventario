@@ -6,9 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // --- 1. Servicios para la web ---
 builder.Services.AddControllersWithViews();
 
-// --- 2. Conexión a la base de datos (¡Ahora es PostgreSQL!) ---
+// --- 2. Conexión a la base de datos (USANDO VARIABLE DE ENTORNO) ---
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
+// Si la variable de entorno no existe (por ejemplo, en desarrollo local), usa la de appsettings.json
+if (string.IsNullOrEmpty(connectionString))
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 // --- 3. Configuración de sesiones ---
 builder.Services.AddDistributedMemoryCache();
