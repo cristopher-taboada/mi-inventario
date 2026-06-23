@@ -15,30 +15,30 @@ namespace LOGIN.Models
         [Display(Name = "Nombre")]
         public string? Nombre { get; set; }
 
-        [Column("email")]
+        [Column("email")]  // ← NOMBRE EN MINÚSCULAS
         [Required(ErrorMessage = "El email es requerido")]
         [EmailAddress(ErrorMessage = "Email no válido")]
         [Display(Name = "Email")]
         public string? Email { get; set; }
 
-        [Column("password")]
+        [Column("password")]  // ← NOMBRE EN MINÚSCULAS
         [Required(ErrorMessage = "La contraseña es requerida")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string? Password { get; set; }
 
-        [Column("edad")]
+        [Column("edad")]  // ← NOMBRE EN MINÚSCULAS
         [Required(ErrorMessage = "La edad es requerida")]
         [Range(1, 120)]
         [Display(Name = "Edad")]
         public int Edad { get; set; }
 
-        [Column("ciudad")]
+        [Column("ciudad")]  // ← NOMBRE EN MINÚSCULAS
         [Required(ErrorMessage = "La ciudad es requerida")]
         [Display(Name = "Ciudad")]
         public string? Ciudad { get; set; }
 
-        [Column("fecharegistro")]
+        [Column("fecharegistro")]  // ← NOMBRE EN MINÚSCULAS
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
     }
 }
