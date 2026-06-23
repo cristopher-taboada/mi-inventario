@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LOGIN.Models;
-using LOGIN.Data;
+using Supabase;
 
 namespace LOGIN.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Supabase.Client _supabase;
 
-        public AccountController(ApplicationDbContext context)
+        public AccountController(Supabase.Client supabase)
         {
-            _context = context;
+            _supabase = supabase;
         }
 
         [HttpGet]
@@ -29,8 +28,12 @@ namespace LOGIN.Controllers
         {
             if (ModelState.IsValid)
             {
-                var usuario = await _context.Usuarios
-                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                var response = await _supabase
+                    .From<Usuario>()
+                    .Where(u => u.Email == model.Email && u.Password == model.Password)
+                    .Get();
+
+                var usuario = response.Models.FirstOrDefault();
 
                 if (usuario != null)
                 {
@@ -58,16 +61,19 @@ namespace LOGIN.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existe = await _context.Usuarios.AnyAsync(u => u.Email == usuario.Email);
-                if (existe)
+                var existResponse = await _supabase
+                    .From<Usuario>()
+                    .Where(u => u.Email == usuario.Email)
+                    .Get();
+
+                if (existResponse.Models.Any())
                 {
                     ModelState.AddModelError("Email", "Este email ya está registrado");
                     return View(usuario);
                 }
 
                 usuario.FechaRegistro = DateTime.Now;
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
+                await _supabase.From<Usuario>().Insert(usuario);
 
                 TempData["Mensaje"] = "Registro exitoso. ¡Inicia sesión!";
                 return RedirectToAction("Login");

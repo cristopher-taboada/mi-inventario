@@ -3,22 +3,24 @@ using LOGIN.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. Servicios para la web ---
+// --- Servicios para la web ---
 builder.Services.AddControllersWithViews();
 
-// --- 2. Conexión a la base de datos (USANDO VARIABLE DE ENTORNO) ---
-var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+// --- Configurar Supabase (URL y Anon Key) ---
+var supabaseUrl = builder.Configuration["Supabase:Url"];
+var supabaseAnonKey = builder.Configuration["Supabase:AnonKey"];
 
-// Si la variable de entorno no existe (por ejemplo, en desarrollo local), usa la de appsettings.json
-if (string.IsNullOrEmpty(connectionString))
+// Verificar que las variables no sean nulas
+if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseAnonKey))
 {
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    throw new Exception("Faltan las variables de configuración de Supabase: Url o AnonKey");
 }
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+// Inicializar el cliente de Supabase
+builder.Services.AddSingleton<Supabase.Client>(sp =>
+    new Supabase.Client(supabaseUrl, supabaseAnonKey));
 
-// --- 3. Configuración de sesiones ---
+// --- Configuración de sesiones ---
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -29,7 +31,6 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// --- 4. Configuración de la aplicación ---
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
