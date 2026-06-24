@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Supabase.Postgrest.Attributes;
+﻿using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
 namespace LOGIN.Models
@@ -7,29 +6,22 @@ namespace LOGIN.Models
     [Table("Productos")]
     public class Producto : BaseModel
     {
-        [PrimaryKey("id")]
+        [PrimaryKey("Id")]
         public int Id { get; set; }
 
-        [Column("nombre")]
-        [Required(ErrorMessage = "El nombre es requerido")]
-        [StringLength(200)]
+        [Column("Nombre")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Column("descripcion")]
+        [Column("Descripcion")]
         public string? Descripcion { get; set; }
 
-        [Column("cantidad")]
-        [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "La cantidad no puede ser negativa")]
+        [Column("Cantidad")]
         public int Cantidad { get; set; }
 
-        [Column("precio")]
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor a 0")]
-        [DataType(DataType.Currency)]
+        [Column("Precio")]
         public decimal Precio { get; set; }
 
-        [Column("fecharegistro")]
+        [Column("FechaRegistro")]
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
     }
 }

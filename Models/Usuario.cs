@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Supabase.Postgrest.Attributes;
+﻿using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
 namespace LOGIN.Models
@@ -7,38 +6,25 @@ namespace LOGIN.Models
     [Table("Usuarios")]
     public class Usuario : BaseModel
     {
-        [PrimaryKey("id")]
+        [PrimaryKey("Id")]
         public int Id { get; set; }
 
-        [Column("nombre")]
-        [Required(ErrorMessage = "El nombre es requerido")]
-        [Display(Name = "Nombre")]
+        [Column("Nombre")]
         public string? Nombre { get; set; }
 
-        [Column("email")]  // ← NOMBRE EN MINÚSCULAS
-        [Required(ErrorMessage = "El email es requerido")]
-        [EmailAddress(ErrorMessage = "Email no válido")]
-        [Display(Name = "Email")]
+        [Column("Email")]
         public string? Email { get; set; }
 
-        [Column("password")]  // ← NOMBRE EN MINÚSCULAS
-        [Required(ErrorMessage = "La contraseña es requerida")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Column("Password")]
         public string? Password { get; set; }
 
-        [Column("edad")]  // ← NOMBRE EN MINÚSCULAS
-        [Required(ErrorMessage = "La edad es requerida")]
-        [Range(1, 120)]
-        [Display(Name = "Edad")]
+        [Column("Edad")]
         public int Edad { get; set; }
 
-        [Column("ciudad")]  // ← NOMBRE EN MINÚSCULAS
-        [Required(ErrorMessage = "La ciudad es requerida")]
-        [Display(Name = "Ciudad")]
+        [Column("Ciudad")]
         public string? Ciudad { get; set; }
 
-        [Column("fecharegistro")]  // ← NOMBRE EN MINÚSCULAS
+        [Column("FechaRegistro")]
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
     }
 }
